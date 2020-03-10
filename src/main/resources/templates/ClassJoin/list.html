@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/layout/tables::head">
+</head>
+<body id="page-top">
+<div th:replace="/layout/tables::navbar"></div>
+<div id="wrapper">
+    <div th:replace="/layout/tables::Sidebar"></div>
+    <div id="content-wrapper">
+        <div class="container-fluid">
+            <div th:replace="/layout/tables::breadcrumb"></div>
+
+            <!-- DataTables Example -->
+            <div class="card mb-3">
+                <div class="card-header">
+                    <i class="fas fa-table"></i>
+                    Data Table Class
+                    <a class="btn btn-primary" role="button" onclick="roles.openModal();">Create Roles</a>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                            <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>Name</th>
+                                <th>Action</th>
+                            </tr>
+                            </thead>
+                            <tfoot>
+                            <tr>
+                                <th>Id</th>
+                                <th>Name</th>
+                                <th>Action</th>
+                            </tr>
+                            </tfoot>
+                            <!--                        <tbody id="tbRoles">-->
+                            <tbody>
+                            <th:block th:each="role : ${rolesList}">
+                                <tr>
+                                    <td th:text="${role.id}"></td>
+                                    <td th:text="${role.roleName}"></td>
+                                    <td>
+                                        <a href="#">Edit</a>
+                                        <a href="#">Delete</a>
+                                    </td>
+                                </tr>
+                            </th:block>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <p class="small text-center text-muted my-5">
+                <em>More table examples coming soon...</em>
+            </p>
+        </div>
+        <!-- /.container-fluid -->
+        <!-- Sticky Footer -->
+        <div th:replace="/layout/tables::footer"></div>
+    </div>
+    <!-- /.content-wrapper -->
+    <div th:replace="/layout/tables::logoutModal"></div>
+    <div th:replace="/layout/tables::Scroll"></div>
+    <div th:replace="/layout/tables::js_source"></div>
+</div>
+<!-- The Modal -->
+<div class="modal" id="addEditRole">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Create Role</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <form th:id="formAddEditRole">
+                    <div class="form-group">
+                        <label>Name</label>
+                        <input type="text" id="name" name="name" class="form-control" placeholder="Name" required>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <a type="button" class="btn btn-danger" data-dismiss="modal">Close</a>
+                <a href="javascript:;" class="btn btn-success" onclick="roles.save()">Save</a>
+            </div>
+
+        </div>
+    </div>
+</div>
+</body>
+<script src="Roles.js"></script>
+</html>
