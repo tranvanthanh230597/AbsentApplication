@@ -29,6 +29,7 @@
                                 <th>classJoin</th>
                                 <th>userStatus</th>
                                 <th>Role</th>
+                                <th>Total of day off</th>
                                 <th>Action</th>
                             </tr>
                             </thead>
@@ -41,10 +42,30 @@
                                 <th>classJoin</th>
                                 <th>userStatus</th>
                                 <th>Role</th>
+                                <th>Total of day off</th>
                                 <th>Action</th>
                             </tr>
                             </tfoot>
-                            <tbody id="tbUsers"></tbody>
+<!--                            <tbody  id="tbUsers" >-->
+                            <tbody>
+                                <th:block th:each="user : ${userList}">
+                                    <tr>
+                                        <td th:text="${user.userId}"></td>
+                                        <td th:text="${user.firstName}"></td>
+                                        <td th:text="${user.lastName}"></td>
+                                        <td th:text="${user.birthDay}"></td>
+                                        <td th:text="${user.classJoin.className}"></td>
+                                        <td th:text="${user.userStatus}"></td>
+                                        <td th:text="${user.role.roleName}"></td>
+                                        <td th:text="${user.dayOff}"></td>
+
+                                        <td>
+                                            <a href="#">Edit</a>
+                                            <a href="#">Delete</a>
+                                        </td>
+                                    </tr>
+                                </th:block>
+                            </tbody>
                         </table>
                     </div>
                 </div>

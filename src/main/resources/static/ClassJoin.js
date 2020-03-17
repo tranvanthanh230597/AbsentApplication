@@ -1,0 +1,1 @@
+var classJoin = {} || classJoin;$(document).ready(function () {    classJoin.init();});classJoin.init = function () {};classJoin.openModal = function () {    $("#addEditClass").modal('show');};

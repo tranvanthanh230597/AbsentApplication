@@ -43,6 +43,7 @@ public class ApiUserController {
     public ResponseEntity<Void> createUser(@RequestBody User user, UriComponentsBuilder ucBuilder) {
         System.out.println("Creating User " + user.getFirstName() + " " +user.getLastName());
         System.out.println("Creating User " + user.getFirstName() + " " +user.getLastName());
+        user.setDayOff(0);
         userService.save(user);
         HttpHeaders headers = new HttpHeaders();
         headers.setLocation(ucBuilder.path("/users/{id}").buildAndExpand(user.getId()).toUri());
