@@ -1,9 +1,9 @@
 package com.example.demo.ApiController;
 
+import com.example.demo.Model.Role;
 import com.example.demo.Model.User;
 import com.example.demo.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -40,35 +40,46 @@ public class ApiUserController {
 
     //-------------------Create a user--------------------------------------------------------
     @RequestMapping(value = "/users", method = RequestMethod.POST)
-    public ResponseEntity<Void> createUser(@RequestBody User user, UriComponentsBuilder ucBuilder) {
-        System.out.println("Creating User " + user.getFirstName() + " " +user.getLastName());
-        System.out.println("Creating User " + user.getFirstName() + " " +user.getLastName());
-        user.setDayOff(0);
-        userService.save(user);
-        HttpHeaders headers = new HttpHeaders();
-        headers.setLocation(ucBuilder.path("/users/{id}").buildAndExpand(user.getId()).toUri());
-        return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
+    public ResponseEntity<User> createUser(@RequestBody User user, UriComponentsBuilder ucBuilder) {
+        try {
+            System.out.println("Creating User " + user.getFirstName() + " " +user.getLastName());
+            System.out.println("Creating User " + user.getFirstName() + " " +user.getLastName());
+
+            Role role = new Role();
+            role.setId((long) 2);
+
+            user.setDayOff(0);
+            user.setUserStatus("On");
+            user.setRole(role);
+            userService.save(user);
+            return new ResponseEntity<User>(user, HttpStatus.OK);
+        }catch (Exception ex){
+            return new ResponseEntity<User>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
     //------------------- Update a user --------------------------------------------------------
 
     @RequestMapping(value = "/users/{id}", method = RequestMethod.PUT)
     public ResponseEntity<User> updateUser(@PathVariable("id") long id, @RequestBody User user) {
-        System.out.println("Updating blog " + id);
-
+        System.out.println("Updating user " + id);
         User currentUser = userService.findById(id);
-
         if (currentUser == null) {
             System.out.println("User with id " + id + " not found");
             return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
         }
-
+        currentUser.setUserId(user.getUserId());
         currentUser.setFirstName(user.getFirstName());
         currentUser.setLastName(user.getLastName());
         currentUser.setBirthDay(user.getBirthDay());
         currentUser.setClassJoin(user.getClassJoin());
         currentUser.setId(user.getId());
 
-        userService.save(currentUser);
+        try {
+            userService.save(currentUser);
+            System.out.println("oke");
+        }catch (Exception ex){
+            return new ResponseEntity<User>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
         return new ResponseEntity<User>(currentUser, HttpStatus.OK);
     }
     //------------------- Delete a category --------------------------------------------------------
@@ -82,7 +93,6 @@ public class ApiUserController {
             System.out.println("Unable to delete. User with id " + id + " not found");
             return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
         }
-
         userService.remove(id);
         return new ResponseEntity<User>(HttpStatus.NO_CONTENT);
     }

@@ -23,14 +23,14 @@
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
-                        <form th:action="@{/editRole}" th:object="${roleInfo}" method="post">
+                        <form th:action="@{/admin/editRole}" th:object="${roleInfo}" method="post">
                             <input th:type="hidden" name="id" th:field="*{id}">
                             <div class="form-group">
                                 <label>Name</label>
                                 <input type="text" th:field="*{roleName}" class="form-control" id="" placeholder="Name">
                             </div>
                             <button type="submit" class="btn btn-primary">Update</button>
-                            <a href="/roles">
+                            <a href="/admin/roles">
                                 <button type="button" class="btn btn-warning">Back</button>
                             </a>
                         </form>
@@ -51,5 +51,5 @@
     <div th:replace="/layout/tables::Scroll"></div>
     <div th:replace="/layout/tables::js_source"></div>
 </div></body>
-<script src="Roles.js"></script>
+<script src="/myJS/Roles.js"></script>
 </html>

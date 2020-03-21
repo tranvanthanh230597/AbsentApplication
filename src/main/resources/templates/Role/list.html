@@ -46,8 +46,8 @@
                                     <td th:text="${role.id}"></td>
                                     <td th:text="${role.roleName}"></td>
                                     <td>
-                                        <a th:href="@{/editRole/__${role.id}__}" title="Edit role"><i class="fas fa-edit"></i></a>
-                                        <a th:href="@{/delRol/__${role.id}__}" title="Delete role"><i class="fas fa-trash-alt"></i></a>
+                                        <a th:href="@{/admin/editRole/__${role.id}__}" title="Edit role"><i class="fas fa-edit"></i></a>
+                                        <a th:href="@{/admin/delRol/__${role.id}__}" title="Delete role"><i class="fas fa-trash-alt"></i></a>
                                     </td>
                                 </tr>
                             </th:block>
@@ -81,7 +81,7 @@
             </div>
             <!-- Modal body -->
             <div class="modal-body">
-                <form th:action="@{/roles}" th:object="${roleInfo}" method="post">
+                <form th:action="@{/admin/roles}" th:object="${roleInfo}" method="post">
                     <div class="form-group">
                         <label>Name</label>
                         <input type="text" id="roleName" name="roleName" th:field="*{roleName}" class="form-control"
@@ -100,5 +100,5 @@
 <!-- End The Modal Create-->
 
 </body>
-<script src="Roles.js"></script>
+<script src="/myJS/Roles.js"></script>
 </html>
