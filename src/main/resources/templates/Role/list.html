@@ -15,43 +15,13 @@
                 <div class="card-header">
                     <i class="fas fa-table"></i>
                     Data Table Roles
-                    <a class="btn btn-primary" role="button" onclick="roles.openModal();">Create Roles</a>
-                    <th:block th:if="${message}">
-                        <div class="alert alert-primary" role="alert">
-                            <p th:text="${message}"></p>
-                        </div>
-                    </th:block>
+                    <a href="javascript:void(0);" class="btn btn-primary" th:text="${title}"
+                       onclick="roles.openModal();">Create Roles</a>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
-                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                            <thead>
-                            <tr>
-                                <th>Id</th>
-                                <th>Name</th>
-                                <th>Action</th>
-                            </tr>
-                            </thead>
-                            <tfoot>
-                            <tr>
-                                <th>Id</th>
-                                <th>Name</th>
-                                <th>Action</th>
-                            </tr>
-                            </tfoot>
-                            <!--                        <tbody id="tbRoles">-->
-                            <tbody>
-                            <th:block th:each="role : ${rolesList}">
-                                <tr>
-                                    <td th:text="${role.id}"></td>
-                                    <td th:text="${role.roleName}"></td>
-                                    <td>
-                                        <a th:href="@{/admin/editRole/__${role.id}__}" title="Edit role"><i class="fas fa-edit"></i></a>
-                                        <a th:href="@{/admin/delRol/__${role.id}__}" title="Delete role"><i class="fas fa-trash-alt"></i></a>
-                                    </td>
-                                </tr>
-                            </th:block>
-                            </tbody>
+                        <table class="table table-bordered" id="role-dataTables" name="role-dataTables" width="100%" cellspacing="0">
+
                         </table>
                     </div>
                 </div>
@@ -81,17 +51,19 @@
             </div>
             <!-- Modal body -->
             <div class="modal-body">
-                <form th:action="@{/admin/roles}" th:object="${roleInfo}" method="post">
+                <form id="formAddEdit" th:name="formAddEdit">
+                    <input hidden name="id" id="id" >
                     <div class="form-group">
                         <label>Name</label>
-                        <input type="text" id="roleName" name="roleName" th:field="*{roleName}" class="form-control"
-                               placeholder="Role name" required>
+                        <input type="text" id="roleName" name="roleName" class="form-control"
+                               data-rule-required=true >
                     </div>
-                    <button type="submit" class="btn btn-primary">Create</button>
                 </form>
             </div>
             <!-- Modal footer -->
             <div class="modal-footer">
+                <a href="javascript:;" class="btn btn-primary"
+                   onclick="roles.save()">Save</a>
                 <a type="button" class="btn btn-danger" data-dismiss="modal">Close</a>
             </div>
         </div>

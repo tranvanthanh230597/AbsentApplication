@@ -39,13 +39,16 @@ public class ApiRoleController {
 
     //-------------------Create a user--------------------------------------------------------
     @RequestMapping(value = "/roles", method = RequestMethod.POST)
-    public ResponseEntity<Void> createRole(@RequestBody Role role, UriComponentsBuilder ucBuilder) {
+    public ResponseEntity<Role> createRole(@RequestBody Role role, UriComponentsBuilder ucBuilder) {
+        try {
         System.out.println("Creating role " + role.getRoleName());
         System.out.println("Creating role " + role.getRoleName());
+
         roleService.save(role);
-        HttpHeaders headers = new HttpHeaders();
-        headers.setLocation(ucBuilder.path("/roles/{id}").buildAndExpand(role.getId()).toUri());
-        return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
+        return new ResponseEntity<Role>(role, HttpStatus.OK);
+        }catch (Exception ex){
+            return new ResponseEntity<Role>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
     //------------------- Update a user --------------------------------------------------------
 
@@ -59,7 +62,11 @@ public class ApiRoleController {
         }
         currentRole.setRoleName(role.getRoleName());
         currentRole.setId(role.getId());
-        roleService.save(currentRole);
+        try {
+            roleService.save(currentRole);
+        }catch (Exception ex){
+            return new ResponseEntity<Role>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
         return new ResponseEntity<Role>(currentRole, HttpStatus.OK);
     }
     //------------------- Delete a category --------------------------------------------------------

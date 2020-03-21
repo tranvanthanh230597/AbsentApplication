@@ -17,74 +17,19 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 @RequestMapping("/admin")
 @Controller
-public class RoleController {
+public class RoleController extends AdminBaseController {
+    private final  String TERM = "Roles ";
+
     @Autowired
     RoleService roleService;
 
     @RequestMapping(value = "/roles", method = RequestMethod.GET)
     public ModelAndView ShowRoles(){
-        Iterable<Role> roles = roleService.findAll();
         ModelAndView modelAndView =new ModelAndView("/Role/list");
-        modelAndView.addObject("rolesList",roles);
-        modelAndView.addObject("roleInfo",new Role());
+        modelAndView.addObject("title",TITLE_ADD);
+        modelAndView.addObject("term",TERM);
+        modelAndView.addObject("userInfo",new User());
         return modelAndView;
-    }
-    @RequestMapping(value = "/roles",method = RequestMethod.POST)
-    public ModelAndView CreateRole(@ModelAttribute("roleInfo") Role role){
-        roleService.save(role);
-        Iterable<Role> roles = roleService.findAll();
-        ModelAndView modelAndView =new ModelAndView("/Role/list");
-        modelAndView.addObject("rolesList",roles);
-        modelAndView.addObject("roleInfo",new Role());
-        modelAndView.addObject("message", "New Role created successfully");
-        return modelAndView;
-    }
-    @RequestMapping(value = "/editRole/{id}", method = RequestMethod.GET)
-    public ModelAndView showEditRollForm(@PathVariable Long id){
-        Role role = roleService.findById(id);
-        if (role != null){
-            ModelAndView modelAndView = new ModelAndView("Role/edit");
-            modelAndView.addObject("roleInfo",role);
-            return modelAndView;
-        }
-        else {
-            Iterable<Role> roles = roleService.findAll();
-            ModelAndView modelAndView =new ModelAndView("/Role/list");
-            modelAndView.addObject("rolesList",roles);
-            modelAndView.addObject("roleInfo",new Role());
-            modelAndView.addObject("message", "Can not find Role with id: " + id);
-            return modelAndView;
-        }
-    }
-    @RequestMapping(value = "/editRole", method = RequestMethod.POST)
-    public ModelAndView updateRole(@ModelAttribute("roleInfo")Role role){
-        roleService.save(role);
-        ModelAndView modelAndView =new ModelAndView("/Role/edit");
-        modelAndView.addObject("roleInfo",role);
-        modelAndView.addObject("message", "Update success");
-        return modelAndView;
-    }
-
-    @RequestMapping(value = "/delRol/{id}", method = RequestMethod.GET)
-    public ModelAndView showFormDeleteRole(@PathVariable Long id){
-        Role role = roleService.findById(id);
-        if (role != null){
-            ModelAndView modelAndView = new ModelAndView("Role/delete");
-            modelAndView.addObject("roleInfo",role);
-            return modelAndView;
-        }else {
-            Iterable<Role> roles = roleService.findAll();
-            ModelAndView modelAndView =new ModelAndView("/Role/list");
-            modelAndView.addObject("rolesList",roles);
-            modelAndView.addObject("roleInfo",new Role());
-            modelAndView.addObject("message", "Can not find Role with id: " + id);
-            return modelAndView;
-        }
-    }
-    @RequestMapping(value = "/deleteRole", method = RequestMethod.POST)
-    public String  deleteRole(@ModelAttribute("roleInfo") Role role){
-        roleService.remove(role.getId());
-        return "redirect:roles";
     }
 
 }

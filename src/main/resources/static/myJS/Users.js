@@ -1,6 +1,4 @@
-var users = {
-
-} || users;
+var users = {} || users;
 
 users.init = function(){
     users.drawTable();
@@ -156,7 +154,7 @@ users.delete = function(id){
                     dataType : "json",
                     success : function(data){
                         console.log('This was logged in the callback: ' + result);
-                        users.drawTable();
+                        $("#user-dataTables").DataTable().ajax.reload();
                     }
                 });
             }
