@@ -136,6 +136,34 @@ users.save = function(){
     }
 };
 
+users.delete = function(id){
+    bootbox.confirm({
+        title: "Remove user",
+        message: "Do you want to remove this user?",
+        buttons: {
+            cancel: {
+                label: '<i class="fa fa-times"></i> No'
+            },
+            confirm: {
+                label: '<i class="fa fa-check"></i> Yes'
+            }
+        },
+        callback: function (result) {
+            if(result){
+                $.ajax({
+                    url : "http://localhost:8088/rest/users/" + id,
+                    method: "DELETE",
+                    dataType : "json",
+                    success : function(data){
+                        console.log('This was logged in the callback: ' + result);
+                        users.drawTable();
+                    }
+                });
+            }
+        }
+    });
+}
+
 users.resetForm =  function(){
     $('#formAddEdit')[0].reset();
     $('#userId').val('');
