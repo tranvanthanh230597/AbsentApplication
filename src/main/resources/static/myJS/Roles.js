@@ -79,16 +79,16 @@ roles.save = function () {
             });
         }
         else{
-            var userObj = {};
-            userObj.roleName = $('#roleName').val();
-            userObj.id = $('#id').val();
-            console.log(userObj);
+            var RoleObj = {};
+            RoleObj.roleName = $('#roleName').val();
+            RoleObj.id = $('#id').val();
+            console.log(RoleObj);
             $.ajax({
-                url : "http://localhost:8088/rest/roles/" + userObj.id,
+                url : "http://localhost:8088/rest/roles/" + RoleObj.id,
                 method : "PUT",
                 dataType : "json",
                 contentType : "application/json",
-                data : JSON.stringify(userObj),
+                data : JSON.stringify(RoleObj),
                 success : function(data){
                     console.log("Update success");
                     $('#addEditRole').modal('hide');
@@ -126,7 +126,16 @@ roles.delete = function (id) {
         }
     });
 };
-
+roles.initValidation =  function(){
+    $("#modalAddEdit").validate({
+        rules: {
+            roleName: "required"
+        },
+        messages: {
+            roleName: "Please enter your roleName"
+        }
+    });
+}
 roles.openModal = function () {
     $("#addEditRole").modal('show');
 };

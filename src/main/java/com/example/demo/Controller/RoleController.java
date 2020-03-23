@@ -20,15 +20,11 @@ import org.springframework.web.servlet.ModelAndView;
 public class RoleController extends AdminBaseController {
     private final  String TERM = "Roles ";
 
-    @Autowired
-    RoleService roleService;
-
     @RequestMapping(value = "/roles", method = RequestMethod.GET)
     public ModelAndView ShowRoles(){
         ModelAndView modelAndView =new ModelAndView("/Role/list");
         modelAndView.addObject("title",TITLE_ADD);
         modelAndView.addObject("term",TERM);
-        modelAndView.addObject("userInfo",new User());
         return modelAndView;
     }
 

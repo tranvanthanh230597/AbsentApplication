@@ -15,38 +15,13 @@
                 <div class="card-header">
                     <i class="fas fa-table"></i>
                     Data Table Class
-                    <a class="btn btn-primary" role="button" onclick="classJoin.openModal();">Create Roles</a>
+                    <a ref="javascript:void(0);" class="btn btn-primary" th:text="${title}"
+                       onclick="classJoin.openModal();">Create Roles</a>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
-                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                            <thead>
-                            <tr>
-                                <th>Id</th>
-                                <th>Name</th>
-                                <th>Action</th>
-                            </tr>
-                            </thead>
-                            <tfoot>
-                            <tr>
-                                <th>Id</th>
-                                <th>Name</th>
-                                <th>Action</th>
-                            </tr>
-                            </tfoot>
-                            <!--                        <tbody id="tbRoles">-->
-                            <tbody>
-                            <th:block th:each="class : ${classList}">
-                                <tr>
-                                    <td th:text="${class.id}"></td>
-                                    <td th:text="${class.className}"></td>
-                                    <td>
-                                        <a th:href="@{/admin/editCla/__${class.id}__}" title="Edit class"><i class="fas fa-edit"></i></a>
-                                        <a th:href="@{/admins/delCla/__${class.id}__}" title="Delete class"><i class="fas fa-trash-alt"></i></a>
-                                    </td>
-                                </tr>
-                            </th:block>
-                            </tbody>
+                        <table class="table table-bordered" id="class-dataTables" name="class-dataTables" width="100%" cellspacing="0">
+
                         </table>
                     </div>
                 </div>
@@ -77,17 +52,20 @@
 
             <!-- Modal body -->
             <div class="modal-body">
-                <form th:action="@{/admin/class}" th:object="${classInfo}" method="post">
+                <form id="formAddEdit" th:name="formAddEdit">
+                    <input hidden name="id" id="id" >
                     <div class="form-group">
                         <label>Name</label>
-                        <input type="text" th:field="*{className}" class="form-control" placeholder="Name" required>
+                        <input type="text" id="className" name="className" class="form-control"
+                               data-rule-required=true>
                     </div>
-                    <button type="submit" class="btn btn-primary">Create</button>
                 </form>
             </div>
 
             <!-- Modal footer -->
             <div class="modal-footer">
+                <a href="javascript:;" class="btn btn-primary"
+                   onclick="classJoin.save()">Save</a>
                 <a type="button" class="btn btn-danger" data-dismiss="modal">Close</a>
             </div>
 

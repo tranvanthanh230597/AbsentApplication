@@ -1,10 +1,9 @@
 package com.example.demo.ApiController;
 
 import com.example.demo.Model.ClassJoin;
-import com.example.demo.Model.User;
+import com.example.demo.Model.Role;
 import com.example.demo.Service.ClassJoinService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -42,13 +41,16 @@ public class ApiClassJoinController {
 
     //-------------------Create a class--------------------------------------------------------
     @RequestMapping(value = "/class", method = RequestMethod.POST)
-    public ResponseEntity<Void> createClass(@RequestBody ClassJoin classJoin, UriComponentsBuilder ucBuilder) {
-        System.out.println("Creating class " + classJoin.getClassName());
-        System.out.println("Creating class " + classJoin.getClassName());
-        classJoinService.save(classJoin);
-        HttpHeaders headers = new HttpHeaders();
-        headers.setLocation(ucBuilder.path("/class/{id}").buildAndExpand(classJoin.getId()).toUri());
-        return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
+    public ResponseEntity<ClassJoin> createClass(@RequestBody ClassJoin classJoin, UriComponentsBuilder ucBuilder) {
+        try {
+            System.out.println("Creating class " + classJoin.getClassName());
+            System.out.println("Creating class " + classJoin.getClassName());
+
+            classJoinService.save(classJoin);
+            return new ResponseEntity<ClassJoin>(classJoin, HttpStatus.OK);
+        }catch (Exception ex){
+            return new ResponseEntity<ClassJoin>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
     //------------------- Update a class --------------------------------------------------------
 
@@ -65,8 +67,11 @@ public class ApiClassJoinController {
 
         currentClass.setClassName(classJoin.getClassName());
         currentClass.setId(classJoin.getId());
-
-        classJoinService.save(currentClass);
+        try {
+            classJoinService.save(currentClass);
+        }catch (Exception ex){
+            return new ResponseEntity<ClassJoin>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
         return new ResponseEntity<ClassJoin>(currentClass, HttpStatus.OK);
     }
     //------------------- Delete a class --------------------------------------------------------
